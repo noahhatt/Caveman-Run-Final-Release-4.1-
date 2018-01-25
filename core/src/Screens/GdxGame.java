@@ -5,7 +5,7 @@ import com.badlogic.gdx.Game;
 public class GdxGame extends Game {
 
     ScrMenu scrMenu;
-    ScrPlay scrPlay;
+    public ScrPlay scrPlay;
     ScrContr scrContr;
     ScrGameOver scrGameOver;
     int nScreen;

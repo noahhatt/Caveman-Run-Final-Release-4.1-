@@ -9,18 +9,30 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import Objects.Button;
 import Objects.Hero;
 import Objects.Rock;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import Objects.Score;
+
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+
 import java.util.Random;
 
 public class ScrPlay implements Screen {
 
     GdxGame game;
     Button btnMenu;
+    
     SpriteBatch batch;
-    boolean Hit;
+    boolean bHit;
+   
+    public static int nScore = 0;
+   
     OrthographicCamera oc;
+    Score score;
     Hero Hero1;
     Rock Rock;
+   
+    private BitmapFont font;
+    
     Random rand = new Random();
     int nRstart = rand.nextInt(700) + 500;
     float fFallSpeed = 0;
@@ -35,6 +47,10 @@ public class ScrPlay implements Screen {
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
         batch = new SpriteBatch();
+        font = new BitmapFont(true);
+        font.setColor(Color.WHITE);
+        
+        score = new Score(Gdx.graphics.getWidth() / 4 + 75f, Gdx.graphics.getHeight() / 2 - 170, 50f, 50f);
         btnMenu = new Button(590, 0, 50, 40, "menu.png");
         Rock = new Rock(Gdx.graphics.getWidth() / 4 + 500f, Gdx.graphics.getHeight() / 2 + 100, 100f, 100f);
         Hero1 = new Hero(Gdx.graphics.getWidth() / 4 - 50f, Gdx.graphics.getHeight() / 2 + 120, 75f, 75f);
@@ -68,7 +84,13 @@ public class ScrPlay implements Screen {
         Hero1.draw(batch);
         Rock.draw(batch);
         btnMenu.draw(batch);
+        score.draw(batch);
+        font.draw(batch,Integer.toString(nScore), 300, 100);
+        
         batch.end();
+       
+
+
         KeyPressed();
 
         if (Hero1.getY() >= Gdx.graphics.getHeight() / 2 + 100) {
@@ -79,21 +101,23 @@ public class ScrPlay implements Screen {
             Hero1.setY(Hero1.getY() + fFallSpeed);
         }
 
-//        Rock.setX(Rock.getX() - 4);
-//        if (Rock.getX() <= -200) {
-//            Rock.setX(nRstart);
-        //    }
-        Hit = isHit(Hero1, Rock);
-        if (Hit == true) {
+      
+        bHit = isHit(Hero1, Rock);
+        if (bHit == true) {
             System.out.println("Hit Rock");
             game.updateState(3);
+            
+            
         } else {
-            System.out.println("Running");
             Rock.setX(Rock.getX() - 6);
             if (Rock.getX() <= -200) {
-                Rock.setX(nRstart);                
+                Rock.setX(nRstart);
+                nScore += 1;
+       
+            System.out.println("jump");
             }
         }
+
     }
 
     public void KeyPressed() {
@@ -113,6 +137,8 @@ public class ScrPlay implements Screen {
             return false;
         }
     }
+
+
 
     @Override
     public void resize(int i, int i1) {

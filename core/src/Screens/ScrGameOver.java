@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import Objects.Button;
+import Objects.Score;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
@@ -25,6 +26,7 @@ public class ScrGameOver implements Screen {
     Button btnMenu;
     SpriteBatch batch;
     String sScore;
+    Score score;
     private BitmapFont font;
     OrthographicCamera oc;
 
@@ -38,11 +40,13 @@ public class ScrGameOver implements Screen {
 
         oc = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    
         oc.update();
         play=new Screens.ScrPlay(game);
         batch = new SpriteBatch();
-        font = new BitmapFont();
+        font = new BitmapFont(true);
         font.setColor(Color.BLUE);
+        score = new Score(Gdx.graphics.getWidth() / 4 + 150f, Gdx.graphics.getHeight() / 2 - 200, 50f, 50f);
         btnMenu = new Button(590, 0, 50, 40, "menu.png");
         btnRetry = new Button(Gdx.graphics.getWidth() / 2 - 75, Gdx.graphics.getHeight() / 4, 150, 150, "retry.png");
 
@@ -73,9 +77,10 @@ public class ScrGameOver implements Screen {
         batch.begin();
         batch.setProjectionMatrix(oc.combined);
         btnMenu.draw(batch);
+        score.draw(batch);
         btnRetry.draw(batch);
         
-        font.draw(batch,Integer.toString(play.nScore), 300,75);
+        font.draw(batch,Integer.toString(play.nScore), 400,50);
         batch.end();
        
 

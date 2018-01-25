@@ -1,7 +1,5 @@
 package Screens;
 
-import Screens.GdxGame;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -10,6 +8,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import Objects.Button;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 /**
  *
@@ -20,9 +20,12 @@ public class ScrGameOver implements Screen {
 
     Texture txtBack;
     GdxGame game;
+    ScrPlay play;
     Button btnRetry;
     Button btnMenu;
     SpriteBatch batch;
+    String sScore;
+    private BitmapFont font;
     OrthographicCamera oc;
 
     public ScrGameOver(GdxGame game) {
@@ -36,7 +39,10 @@ public class ScrGameOver implements Screen {
         oc = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
+        play=new Screens.ScrPlay(game);
         batch = new SpriteBatch();
+        font = new BitmapFont();
+        font.setColor(Color.BLUE);
         btnMenu = new Button(590, 0, 50, 40, "menu.png");
         btnRetry = new Button(Gdx.graphics.getWidth() / 2 - 75, Gdx.graphics.getHeight() / 4, 150, 150, "retry.png");
 
@@ -54,6 +60,7 @@ public class ScrGameOver implements Screen {
             }
             if (btnRetry.isMousedOver()) {
                 game.updateState(1);
+                 play.nScore = 0;
             }
         }
     }
@@ -67,8 +74,10 @@ public class ScrGameOver implements Screen {
         batch.setProjectionMatrix(oc.combined);
         btnMenu.draw(batch);
         btnRetry.draw(batch);
-
+        
+        font.draw(batch,Integer.toString(play.nScore), 300,75);
         batch.end();
+       
 
     }
 

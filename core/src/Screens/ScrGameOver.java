@@ -37,7 +37,7 @@ public class ScrGameOver implements Screen {
 
     @Override
     public void show() {
-
+        
         oc = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     
@@ -53,14 +53,11 @@ public class ScrGameOver implements Screen {
     }
 
     private void changeScreen() {
-        if (Gdx.input.isKeyPressed(Input.Keys.P)) {
-            game.updateState(1);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.C)) {
-            game.updateState(2);
-        }
+       
         if (Gdx.input.justTouched()) {
             if (btnMenu.isMousedOver()) {
                 game.updateState(0);
+                play.nScore = 0;
             }
             if (btnRetry.isMousedOver()) {
                 game.updateState(1);
